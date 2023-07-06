@@ -4,8 +4,15 @@ void main() {
   runApp(const Myapp());
 }
 
-class Myapp extends StatelessWidget {
+class Myapp extends StatefulWidget {
   const Myapp({super.key});
+
+  @override
+  State<Myapp> createState() => _MyappState();
+}
+
+class _MyappState extends State<Myapp> {
+  bool _isObscure = true;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +36,7 @@ class Myapp extends StatelessWidget {
                         style: TextStyle(
                             color: Color.fromARGB(255, 38, 35, 35),
                             fontSize: 30,
-                            fontWeight: FontWeight.w500)),
+                            fontWeight: FontWeight.w700)),
                     Text("Forgot Password?",
                         style: TextStyle(
                             color: Color.fromARGB(255, 89, 160, 222),
@@ -38,35 +45,37 @@ class Myapp extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
+                const TextField(
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.black)),
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.orangeAccent)),
-                    hintText: 'Email(or phone number)',
+                    labelText: 'Email(or phone number)',
                   ),
                 ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black)),
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.orangeAccent)),
-                    hintText: 'Password',
-                  ),
-                  onSaved: (String? value) {},
-                  validator: (String? value) {
-                    return (value != null && value.contains('@'))
-                        ? 'Do not use the @ char.'
-                        : null;
-                  },
+                TextField(
+                  obscureText: _isObscure,
+                  decoration: InputDecoration(
+                      enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black)),
+                      labelText: 'Password',
+                      suffixIcon: IconButton(
+                          icon: Icon(
+                            _isObscure
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _isObscure = !_isObscure;
+                            });
+                            const SizedBox(
+                              height: 40,
+                            );
+                          })),
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
+                const SizedBox(height: 20),
                 Card(
                   elevation: 15,
                   shape: const BeveledRectangleBorder(
@@ -121,7 +130,7 @@ class Myapp extends StatelessWidget {
                   ]),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 30,
                 ),
                 InkWell(
                   child: Card(
